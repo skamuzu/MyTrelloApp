@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSocialAuth } from "@/lib/hooks/useSocialAuth";
 
 export function SignUpForm({
   className,
@@ -25,6 +26,7 @@ export function SignUpForm({
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { handleSocialLogin, socialError, socialLoading } = useSocialAuth();
   const router = useRouter();
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -104,6 +106,15 @@ export function SignUpForm({
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Creating an account..." : "Sign up"}
+              </Button>
+              <Button
+                type="button"
+                className="w-full"
+                variant={"outline"}
+                disabled={socialLoading}
+                onClick={handleSocialLogin}
+              >
+                {socialLoading ? "Logging in..." : "Continue with Google"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

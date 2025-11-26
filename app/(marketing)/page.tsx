@@ -6,6 +6,7 @@ import Footer from "./_components/footer";
 import { Card } from "@/components/ui/card";
 
 const Page = () => {
+
   return (
     <div className="flex flex-col items-center max-w-8xl  mx-auto pt-5 space-y-16">
       <div className="text-center flex flex-col  space-y-4 items-center">

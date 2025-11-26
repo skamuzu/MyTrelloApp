@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSocialAuth } from "@/lib/hooks/useSocialAuth";
 
 export function LoginForm({
   className,
@@ -24,6 +25,7 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { handleSocialLogin, socialError, socialLoading } = useSocialAuth();
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -46,6 +48,7 @@ export function LoginForm({
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -91,6 +94,15 @@ export function LoginForm({
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? "Logging in..." : "Login"}
+              </Button>
+              <Button
+                type="button"
+                className="w-full"
+                variant={"outline"}
+                disabled={socialLoading}
+                onClick={handleSocialLogin}
+              >
+                {socialLoading ? "Logging in..." : "Continue with Google"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
