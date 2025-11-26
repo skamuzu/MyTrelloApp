@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSocialAuth } from "@/lib/hooks/useSocialAuth";
+import { useSocialAuth } from "@/hooks/useSocialAuth";
 
 export function LoginForm({
   className,
