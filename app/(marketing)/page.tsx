@@ -4,8 +4,10 @@ import Link from "next/link";
 import CardWrapper from "./_components/card-wrapper";
 import Footer from "./_components/footer";
 import { Card } from "@/components/ui/card";
+import { getUser } from "@/lib/auth/get-user";
 
 const Page = () => {
+  const user = getUser();
 
   return (
     <div className="flex flex-col items-center max-w-8xl  mx-auto pt-5 space-y-16">
@@ -18,7 +20,11 @@ const Page = () => {
           projects, track progress, and boost productivity.
         </p>
         <Button asChild size={"lg"} className="w-60 text-lg p-6">
-          <Link href="/auth/sign-up">Get Started - It's Free</Link>
+          {!!user ? (
+            <Link href="/dashboard">Go to Dashboard</Link>
+          ) : (
+            <Link href="/auth/sign-up">Get Started - It's Free</Link>
+          )}
         </Button>
       </div>
       <Image
@@ -41,7 +47,11 @@ const Page = () => {
       <Card className=" w-full max-w-7xl rounded-xl flex flex-col py-10 items-center justify-center mt-16 mb-20 h-80">
         <h2 className="text-4xl font-bold mb-8">Ready to Boost Your Team's Productivity?</h2>
         <Button asChild size={"lg"} className="w-60 text-lg p-6 mb-10">
-          <Link href="/auth/sign-up">Sign Up For Free</Link>
+          {!!user ? (
+            <Link href="/dashboard">Go to Dashboard</Link>
+          ) : (
+            <Link href="/auth/sign-up">Sign Up For Free</Link>
+          )}
         </Button>
       </Card>
         <Footer />

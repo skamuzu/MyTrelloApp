@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { geistSans } from "@/lib/fonts";
-import Navbar from "./_components/navbar";
+import Navbar from "./_components/marketing-navbar";
 
 export default function MarketingLayout({
   children,

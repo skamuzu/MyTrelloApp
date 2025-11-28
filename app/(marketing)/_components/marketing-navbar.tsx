@@ -3,6 +3,9 @@ import Link from "next/link";
 import Logo from "@/components/logo";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Button } from "@/components/ui/button";
+import { CurrentUserAvatar } from "@/components/current-user-avatar";
+import { getUser } from "@/lib/auth/get-user";
+import { get } from "http";
 
 const NavLinks = [
   { name: "Home", href: "/" },
@@ -10,13 +13,14 @@ const NavLinks = [
 ];
 
 const AuthButtons = [
-    { name: "Login", href: "/auth/login" },
-    { name: "Sign Up", href: "/auth/sign-up" },
-]
+  { name: "Login", href: "/auth/login" },
+  { name: "Sign Up", href: "/auth/sign-up" },
+];
 
 const Navbar = () => {
+  const user = getUser();
   return (
-    <nav className=" w-full h-16 z-20 flex flex-col items-center justify-between px-6 ">
+  <nav className=" w-full h-16 z-20 flex flex-col items-center justify-between px-6 ">
       <div className=" mx-auto max-w-7xl w-full  border-b  flex items-center justify-between">
         <Logo showTitle={true} />
         <div className="flex items-center justify-between space-x-6">
@@ -29,13 +33,15 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          {AuthButtons.map((button) => (
-            <Button asChild key={button.name} >
-                <Link href={button.href}>
-                    {button.name}
-                </Link>
-                </Button>
-          ))}
+          {!!user ? (
+            <CurrentUserAvatar />
+          ) : (
+            AuthButtons.map((button) => (
+              <Button asChild key={button.name}>
+                <Link href={button.href}>{button.name}</Link>
+              </Button>
+            ))
+          )}
           <ModeToggle />
         </div>
       </div>
