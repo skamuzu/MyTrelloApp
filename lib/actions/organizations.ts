@@ -1,5 +1,17 @@
+"use server";
+
+import { Row } from "postgres";
 import sql from "../db";
 import { Organization, CreateOrganizationInput } from "../types/organizations";
+import z from "zod";
+import { refresh } from "next/cache";
+
+const CreateOrganizationSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  created_by: z.uuidv4(),
+  color: z.string(),
+});
 
 export async function getUserOrganizations(
   profileId: string
@@ -10,20 +22,23 @@ export async function getUserOrganizations(
     ON org.id = om.organization_id
     WHERE om.profile_id = ${profileId}
     ORDER BY org.created_at DESC`;
-  return organizations;
-}
-
-export async function createOrganization(
-  input: CreateOrganizationInput
-): Promise<Organization> {
-  const { name, description = null, created_by, image_url = null } = input;
-  const [organization] = await sql<Organization[]>`
-    INSERT INTO organizations (name, description, created_by, image_url)
-    VALUES (${name}, ${description}, ${created_by}, ${image_url})
-    RETURNING *;
-  `;
-
-  return organization;
+    return organizations;
+  }
+  
+export async function createOrganization(formData: FormData) {
+  const validatedFields = CreateOrganizationSchema.parse({
+    name: formData.get("name"),
+    description: formData.get("desc"),
+    created_by: formData.get("user_id"),
+    color: formData.get("color"),
+  });
+  
+  await sql`
+  INSERT INTO organizations
+  (name, description, created_by, color)
+  VALUES
+  (${validatedFields.name},${validatedFields.description},${validatedFields.created_by}, ${validatedFields.color})`;
+  refresh();
 }
 
 export async function deleteOrganization(

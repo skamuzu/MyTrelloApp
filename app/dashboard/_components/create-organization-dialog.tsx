@@ -14,18 +14,21 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ColorPicker from "./color-picker";
+import CurrentUserInput from "@/components/current-user-input";
+import { createOrganization } from "@/lib/actions/organizations";
 
 export default function CreateOrganizationDialog({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+
   return (
     <Dialog>
-      <DialogTrigger>{children}</DialogTrigger>
-
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form>
+        <form action={createOrganization}>
           <DialogHeader className="mb-2">
             <DialogTitle>Create Organization</DialogTitle>
           </DialogHeader>
@@ -40,12 +43,12 @@ export default function CreateOrganizationDialog({
             </div>
             <div className="grid gap-3">
               <ColorPicker />
+              <CurrentUserInput/>
             </div>
           </div>
           <DialogFooter className="mt-4">
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            <Button variant="outline">Cancel</Button>
+
             <Button type="submit">Create Organization</Button>
           </DialogFooter>
         </form>

@@ -4,6 +4,7 @@ import { getUserOrganizations } from "@/lib/actions/organizations";
 import { createClient } from "@/lib/supabase/server";
 import { UsersIcon } from "lucide-react";
 import CreateOrganizationDialog from "./create-organization-dialog";
+import OrganizationCard from "./organization-card";
 
 const OrganizationList = async () => {
   const supabase = await createClient();
@@ -28,23 +29,28 @@ const OrganizationList = async () => {
           Organizations are where your team boards live. Get started by creating
           one for your team, project or company.
         </p>
-        <Button className="text-lg rounded-2xl p-6">
-          <CreateOrganizationDialog>
+        <CreateOrganizationDialog>
+          <Button className="text-lg rounded-2xl p-6">
             Create Organization
-          </CreateOrganizationDialog>
-        </Button>
+          </Button>
+        </CreateOrganizationDialog>
       </Card>
     );
   }
 
   return (
     <div>
-      <h2>Your Organizations</h2>
-      <ul>
-        {organizations.map((org: any) => (
-          <li key={org.id}>{org.name}</li>
-        ))}
-      </ul>
+    <div className="flex space-x-6">
+
+      {organizations.map((org: any) => (
+        <OrganizationCard
+          key={org.id}
+          name={org.name}
+          color={org.color}
+          desc={org.description}
+        />
+      ))}
+    </div>
     </div>
   );
 };
