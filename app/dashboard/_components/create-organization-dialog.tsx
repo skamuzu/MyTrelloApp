@@ -16,19 +16,24 @@ import { Button } from "@/components/ui/button";
 import ColorPicker from "./color-picker";
 import CurrentUserInput from "@/components/current-user-input";
 import { createOrganization } from "@/lib/actions/organizations";
+import { useState } from "react";
 
 export default function CreateOrganizationDialog({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-
+  const [open, setOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <form action={createOrganization}>
+        <form
+          action={async (formData) => {
+            await createOrganization(formData);
+            setOpen(false);
+          }}
+        >
           <DialogHeader className="mb-2">
             <DialogTitle>Create Organization</DialogTitle>
           </DialogHeader>
@@ -43,11 +48,13 @@ export default function CreateOrganizationDialog({
             </div>
             <div className="grid gap-3">
               <ColorPicker />
-              <CurrentUserInput/>
+              <CurrentUserInput />
             </div>
           </div>
           <DialogFooter className="mt-4">
-            <Button variant="outline">Cancel</Button>
+            <DialogClose>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
 
             <Button type="submit">Create Organization</Button>
           </DialogFooter>

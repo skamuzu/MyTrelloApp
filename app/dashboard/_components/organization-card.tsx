@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 type OrganizationCardProps = {
   color: string;
@@ -8,15 +8,15 @@ type OrganizationCardProps = {
 
 const OrganizationCard = ({ color, name, desc }: OrganizationCardProps) => {
   return (
-    <Card className="w-1/3">
+    <Card className="bg-none border-0 shadow-xl">
       <div
-        className="w-full h-16"
-        style={{ backgroundColor: `#${color}` }}
+        className="w-full h-24 rounded-t-2xl hover:opacity-80"
+        style={{ backgroundColor: `${color}` }}
       ></div>
-    <div>
+    <div className="p-3 flex space-y-1 flex-col">
 
-      <h1>{name}</h1>
-      <p>{desc}</p>
+      <CardTitle>{name}</CardTitle>
+      <CardDescription>{desc}</CardDescription>
     </div>
     </Card>
   );

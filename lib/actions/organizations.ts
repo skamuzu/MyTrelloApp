@@ -1,8 +1,7 @@
 "use server";
 
-import { Row } from "postgres";
 import sql from "../db";
-import { Organization, CreateOrganizationInput } from "../types/organizations";
+import { Organization} from "../types/organizations";
 import z from "zod";
 import { refresh } from "next/cache";
 

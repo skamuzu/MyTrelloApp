@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getUserOrganizations } from "@/lib/actions/organizations";
 import { createClient } from "@/lib/supabase/server";
-import { UsersIcon } from "lucide-react";
+import { PlusIcon, UsersIcon } from "lucide-react";
 import CreateOrganizationDialog from "./create-organization-dialog";
 import OrganizationCard from "./organization-card";
 
@@ -39,8 +39,8 @@ const OrganizationList = async () => {
   }
 
   return (
-    <div>
-    <div className="flex space-x-6">
+    <div className="py-4">
+    <div className="grid grid-cols-4 gap-8">
 
       {organizations.map((org: any) => (
         <OrganizationCard
@@ -50,6 +50,13 @@ const OrganizationList = async () => {
           desc={org.description}
         />
       ))}
+      <CreateOrganizationDialog>
+          <Card className="border-2 rounded-xl bg-muted hover:bg-gray-200 dark:hover:bg-muted dark:hover:opacity-90 border-dashed flex flex-col items-center justify-center p-4 ">
+            <PlusIcon className="w-10 h-10"/>
+            <h2 className="font-bold">Create New Organization</h2>
+            <p className="text-muted-foreground">Start a new team or organization from scratch</p>
+          </Card>
+      </CreateOrganizationDialog>
     </div>
     </div>
   );
