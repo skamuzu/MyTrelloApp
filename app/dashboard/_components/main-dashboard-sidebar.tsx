@@ -38,7 +38,7 @@ const MainDashboardSidebar = async () => {
             <Link
               key={link.name}
               href={link.href}
-              className="flex items-center space-x-2 px-4 py-2 text-lg rounded-md hover:bg-muted "
+              className="flex items-center space-x-2 px-4 py-2 text-sm font-semibold rounded-md hover:bg-muted "
             >
               <link.icon className="w-8 h-8" />
               <span>{link.name}</span>
@@ -53,8 +53,8 @@ const MainDashboardSidebar = async () => {
 
           {organizations.map((organization) => {
             return (
-              <SidebarMenuItem key={organization.id}   className="flex items-center space-x-2 px-4 py-2 text-lg rounded-md hover:bg-muted  ">
-                <div className="w-8 h-8 rounded-xl" style={{ backgroundColor: `${organization.color}` }}></div>
+              <SidebarMenuItem key={organization.id}   className="flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-muted ">
+                <div className="w-6 h-6 rounded-xl" style={{ backgroundColor: `${organization.color}` }}></div>
                 <Link href={``}>{organization.name}</Link>
               </SidebarMenuItem>
             );

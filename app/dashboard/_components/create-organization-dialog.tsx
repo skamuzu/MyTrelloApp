@@ -52,7 +52,7 @@ export default function CreateOrganizationDialog({
             </div>
           </div>
           <DialogFooter className="mt-4">
-            <DialogClose>
+            <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
 

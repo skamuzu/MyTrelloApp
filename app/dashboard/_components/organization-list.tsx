@@ -48,6 +48,7 @@ const OrganizationList = async () => {
           name={org.name}
           color={org.color}
           desc={org.description}
+          id={org.id}
         />
       ))}
       <CreateOrganizationDialog>
