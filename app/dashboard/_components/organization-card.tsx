@@ -1,12 +1,8 @@
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import OrganizationCardDropdown from "./organization-card-dropdown";
+import type { OrganizationCardProps } from "@/lib/types/organizations";
 
-type OrganizationCardProps = {
-  color: string;
-  name: string;
-  desc: string;
-  id: string;
-};
+
 
 const OrganizationCard = ({ color, name, desc, id }: OrganizationCardProps) => {
   return (
@@ -15,7 +11,7 @@ const OrganizationCard = ({ color, name, desc, id }: OrganizationCardProps) => {
         className="w-full h-24 rounded-t-2xl group hover:opacity-80 p-2 items-start flex justify-end"
         style={{ backgroundColor: `${color}` }}
       >
-        <OrganizationCardDropdown id={id}/>
+        <OrganizationCardDropdown id={id} color={color} desc={desc} name={name}/>
 
       </div>
     <div className="p-3 flex space-y-1 flex-col">

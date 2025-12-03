@@ -15,43 +15,50 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ColorPicker from "./color-picker";
 import CurrentUserInput from "@/components/current-user-input";
-import { createOrganization } from "@/lib/actions/organizations";
-import { useState } from "react";
+import { updateOrganization } from "@/lib/actions/organizations";
+import { SetStateAction, useState } from "react";
 import { toast } from "sonner";
+import { Organization } from "@/lib/types/organizations";
+import { OrganizationCardProps } from "@/lib/types/organizations";
 
-export default function CreateOrganizationDialog({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [open, setOpen] = useState(false);
+type EditOrganizationDialogProps = {
+  open: boolean;
+  setOpen: React.Dispatch<SetStateAction<boolean>>;
+} & OrganizationCardProps;
+
+export default function EditOrganizationDialog({
+  id,
+  color,
+  name,
+  desc,
+  open,
+  setOpen,
+}: EditOrganizationDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <form
           action={async (formData) => {
-            await createOrganization(formData);
+            await updateOrganization(formData);
             setOpen(false);
-            toast.success("Your organization has been created")
-
+            toast.success("Your organization has been edited");
           }}
         >
           <DialogHeader className="mb-2">
-            <DialogTitle>Create Organization</DialogTitle>
+            <DialogTitle>Edit Organization</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name">Organization Name</Label>
-              <Input id="name" name="name" />
+              <Input id="name" name="name" defaultValue={name} />
             </div>
             <div className="grid gap-3">
               <Label htmlFor="desc">Organization Description (Optional)</Label>
-              <Input id="desc" name="desc" />
+              <Input id="desc" name="desc" defaultValue={desc} />
             </div>
             <div className="grid gap-3">
-              <ColorPicker />
-              <CurrentUserInput />
+              <ColorPicker color={color} />
+              <Input type="hidden" value={id} name="id"/>
             </div>
           </div>
           <DialogFooter className="mt-4">
@@ -59,7 +66,7 @@ export default function CreateOrganizationDialog({
               <Button variant="outline">Cancel</Button>
             </DialogClose>
 
-            <Button type="submit">Create Organization</Button>
+            <Button type="submit">Edit Organization</Button>
           </DialogFooter>
         </form>
       </DialogContent>

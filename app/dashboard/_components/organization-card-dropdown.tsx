@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -5,40 +8,60 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreVertical, PenLine, Trash2 } from "lucide-react";
-import { deleteOrganization } from "@/lib/actions/organizations";
-import { createClient } from "@/lib/supabase/server";
-import { Organization } from "@/lib/types/organizations";
+import { DeleteOrganizationDialog } from "./delete-organization-dialog";
+import EditOrganizationDialog from "./edit-organization-dialog";
 
-export default async function OrganizationCardDropdown({ id }: { id: string }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+type OrganizationCardProps = {
+  color: string;
+  name: string;
+  desc: string;
+  id: string;
+};
 
-  if (!user) return null;
+export default function OrganizationCardDropdown({
+  id,
+  name,
+  desc,
+  color,
+}: OrganizationCardProps) {
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <MoreVertical
-          className="w-5 h-5 text-background outline-0 opacity-0 group-hover:opacity-100 transition-opacity
-"
-        />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem>
-          <PenLine />
-          Edit Item
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          className="text-red-600"
-          onClick={() => deleteOrganization(id, user.id)}
-        >
-          <Trash2 />
-          Delete Item
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <MoreVertical className="w-5 h-5" />
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent>
+          <DropdownMenuItem onSelect={() => setEditOpen(true)}>
+            <PenLine />
+            Edit Item
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            className="text-red-600"
+            onSelect={() => setDeleteOpen(true)}
+          >
+            <Trash2 />
+            Delete Item
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <EditOrganizationDialog
+        id={id}
+        color={color}
+        desc={desc}
+        name={name}
+        open={editOpen}
+        setOpen={setEditOpen}
+      />
+      <DeleteOrganizationDialog
+        open={deleteOpen}
+        setOpen={setDeleteOpen}
+        id={id}
+      />
+    </>
   );
 }

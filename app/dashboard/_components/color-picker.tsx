@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -20,8 +20,14 @@ const BASE_COLORS = [
   "#B388EB",
 ];
 
-export default function ColorPicker() {
+export default function ColorPicker({ color }: { color?: string }) {
   const [selectedColor, setSelectedColor] = useState(BASE_COLORS[0]);
+
+  useEffect(() => {
+    if (color) {
+      setSelectedColor(color);
+    }
+  }, [color]);
 
   return (
     <div>
@@ -39,7 +45,12 @@ export default function ColorPicker() {
           ))}
         </div>
         <div>
-          <input type="color" className="h-full rounded-md border-0" value={selectedColor} onChange={(e) => setSelectedColor(e.target.value)} />
+          <input
+            type="color"
+            className="h-full rounded-md border-0"
+            value={selectedColor}
+            onChange={(e) => setSelectedColor(e.target.value)}
+          />
         </div>
       </div>
     </div>

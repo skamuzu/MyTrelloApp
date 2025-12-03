@@ -14,3 +14,10 @@ export type CreateOrganizationInput = {
   created_by: string;
   color?: string | null;
 };
+
+export type OrganizationCardProps = {
+  color: string;
+  name: string;
+  desc: string;
+  id: string;
+};

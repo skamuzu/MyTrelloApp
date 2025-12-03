@@ -40,7 +40,7 @@ const OrganizationList = async () => {
 
   return (
     <div className="py-4">
-    <div className="grid grid-cols-4 gap-8">
+    <div className="md:grid flex flex-col  md:grid-cols-3 xl:grid-cols-4 gap-8">
 
       {organizations.map((org: any) => (
         <OrganizationCard
